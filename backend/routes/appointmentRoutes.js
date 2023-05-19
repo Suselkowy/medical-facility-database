@@ -1,13 +1,18 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const Appointment = require('../models/appointment');
+const Appointment = require("../models/appointment");
+const { protect, roleProtect } = require("../middleware/authMiddleware");
 
-router.get('/', async (req, res) => {
-  const appointments = await Appointment.find().populate('patient staff');
-  res.send(appointments);
-});
+const appointmentController = require("../controllers/appointmentController");
 
-router.post('/', async (req, res) => {
+router.get(
+  "/",
+  protect,
+  roleProtect("staff"),
+  appointmentController.getAllAppointments
+);
+
+router.post("/", async (req, res) => {
   const appointment = new Appointment(req.body);
   await appointment.save();
   res.send(appointment);
