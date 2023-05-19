@@ -7,8 +7,10 @@ const bcrypt = require("bcryptjs");
 
 exports.registerUser = asyncHandler(async (req, res) => {
   const { email, password, type, name, age, address } = req.body;
+  console.log("register");
 
   if (!email || !name || !password || !type || !age || !address) {
+    console.log(req.body);
     res.status(400);
     throw new Error("Check all fields");
   }
@@ -60,6 +62,7 @@ exports.registerUser = asyncHandler(async (req, res) => {
       _id: user.id,
       name: name,
       email: user.email,
+      type: type,
       token: generateToken(user._id),
     });
   } else {
@@ -80,6 +83,7 @@ exports.loginUser = asyncHandler(async (req, res) => {
       _id: user.id,
       name: patient.name,
       email: user.email,
+      type: user.type,
       token: generateToken(user._id),
     });
   } else {
