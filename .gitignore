@@ -1,0 +1,22 @@
+# Pliki systemowe
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Pliki środowiska
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Build
+build/
+
+# Pliki IDE
+.vscode/
+.idea/
+*.iml
+
+# Inne
+.DS_Store
+Thumbs.db
