@@ -1,31 +1,42 @@
-const jwt = require('jsonwebtoken');
-const express = require('express');
-const mongoose = require('mongoose');
-const patientRoutes = require('./routes/patientRoutes');
-const staffRoutes = require('./routes/staffRoutes');
-const roomRoutes = require('./routes/roomRoutes');
-const ambulanceRoutes = require('./routes/ambulanceRoutes');
-const appointmentRoutes = require('./routes/appointmentRoutes');
-const billRoutes = require('./routes/billRoutes');
-const ambulanceCallRoutes = require('./routes/ambulanceCallRoutes');
+const jwt = require("jsonwebtoken");
+const express = require("express");
+const mongoose = require("mongoose");
+const patientRoutes = require("./routes/patientRoutes");
+const staffRoutes = require("./routes/staffRoutes");
+const roomRoutes = require("./routes/roomRoutes");
+const ambulanceRoutes = require("./routes/ambulanceRoutes");
+const appointmentRoutes = require("./routes/appointmentRoutes");
+const billRoutes = require("./routes/billRoutes");
+const ambulanceCallRoutes = require("./routes/ambulanceCallRoutes");
+const userRoutes = require("./routes/userRoutes");
 
-mongoose.connect('mongodb://localhost/medical_database', {
+const dotenv = require("dotenv").config();
+
+const { errorHandler } = require("./middleware/errorMiddleware");
+
+mongoose.connect("mongodb://localhost/medical_database", {
   useNewUrlParser: true,
-  useUnifiedTopology: true
+  useUnifiedTopology: true,
 });
 
 const app = express();
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
-app.use('/patients', patientRoutes);
-app.use('/staff', staffRoutes);
-app.use('/rooms', roomRoutes);
-app.use('/ambulances', ambulanceRoutes);
-app.use('/appointments', appointmentRoutes);
-app.use('/bills', billRoutes);
-app.use('/ambulanceCalls', ambulanceCallRoutes);
+app.use("/patients", patientRoutes);
+app.use("/staff", staffRoutes);
+app.use("/rooms", roomRoutes);
+app.use("/ambulances", ambulanceRoutes);
+app.use("/appointments", appointmentRoutes);
+app.use("/bills", billRoutes);
+app.use("/ambulanceCalls", ambulanceCallRoutes);
+app.use("/users", userRoutes);
 
-app.listen(12345, () => console.log('Listening on port 12345'));
+app.use(errorHandler);
+
+app.listen(process.env.PORT, () =>
+  console.log(`Listening on port ${process.env.PORT}`)
+);
 
 // LOGOWANIE BELOW
 
@@ -45,7 +56,6 @@ app.listen(12345, () => console.log('Listening on port 12345'));
 // });
 
 // app.listen(3001, () => console.log('Server started on port 3001'));
-
 
 // // // // // chyba React.js kij wie jak to ma być
 // import React, { useState } from 'react';
