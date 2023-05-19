@@ -8,4 +8,5 @@ medical-facility-database
 2) Topic
 Managing medical facility
 
-3) Technologies
+3) Technologies 
+MangoDB + NodeJS + React
