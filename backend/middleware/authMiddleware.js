@@ -33,4 +33,23 @@ const protect = asyncHandler(async (req, res, next) => {
   }
 });
 
-module.exports = { protect };
+const roleProtect = (role) => {
+  return asyncHandler(async (req, res, next) => {
+    if (!req.user) {
+      res.status(401);
+      throw new Error("Not authorized");
+    }
+
+    if (req.user.role == role) {
+      return next();
+    }
+
+    res.status(401);
+    throw new Error("Permission Denied");
+  });
+};
+
+module.exports = {
+  protect,
+  roleProtect,
+};
