@@ -38,7 +38,7 @@ function Register() {
       }
     }
 
-    dispatch(reset);
+    dispatch(reset());
   }, [user, isError, isSuccess, message, navigate, dispatch]);
 
   const onChange = (e) => {
@@ -47,6 +47,7 @@ function Register() {
       [e.target.name]: e.target.value,
     }));
   };
+
   const onSubmit = (e) => {
     e.preventDefault();
 
@@ -66,6 +67,7 @@ function Register() {
       dispatch(register(userData));
     }
   };
+
   return (
     <>
       <div className="register-container">
