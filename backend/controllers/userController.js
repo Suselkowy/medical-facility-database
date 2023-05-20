@@ -72,6 +72,7 @@ exports.registerUser = asyncHandler(async (req, res) => {
 });
 
 exports.loginUser = asyncHandler(async (req, res) => {
+  console.log("login");
   const { email, password } = req.body;
 
   // Check for user email
