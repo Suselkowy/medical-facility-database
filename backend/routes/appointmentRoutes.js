@@ -8,8 +8,8 @@ const appointmentController = require("../controllers/appointmentController");
 router.get(
   "/",
   protect,
-  roleProtect("staff"),
-  appointmentController.getAllAppointments
+  //roleProtect("staff"),
+  appointmentController.getAppointments
 );
 
 router.post("/", async (req, res) => {
