@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
 import "../components/css/Login.css";
+import "../components/css/appointment.css";
+
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import {
   reset,
   getAppointments,
+  getSpecialities,
 } from "../features/appointments/appointmentSlice";
 import Spinner from "../components/spinner";
 import AppointmentItem from "../components/AppointmentItem";
@@ -18,15 +21,14 @@ function PatientDashboard() {
     day: "",
     hourStart: "",
     hourEnd: "",
-    doctor: "",
+    speciality: "",
   });
 
-  const { day, hourStart, hourEnd, doctor } = formData;
+  const { day, hourStart, hourEnd, speciality } = formData;
 
   const { user } = useSelector((state) => state.auth);
-  const { appointments, isLoading, isError, message } = useSelector(
-    (state) => state.appointments
-  );
+  const { appointments, specialities, isLoading, isError, message } =
+    useSelector((state) => state.appointments);
 
   const onChange = (e) => {
     setFormData((prevState) => ({
@@ -42,7 +44,7 @@ function PatientDashboard() {
       day,
       hourStart,
       hourEnd,
-      doctor,
+      speciality,
     };
 
     dispatch(getAppointments(userData));
@@ -57,8 +59,10 @@ function PatientDashboard() {
       navigate("/login");
     }
 
+    dispatch(getSpecialities());
+
     return () => {
-      dispatch(reset);
+      dispatch(reset());
     };
   }, [user, navigate, isError, message, dispatch]);
 
@@ -100,28 +104,33 @@ function PatientDashboard() {
             />
           </div>
           <div className="form-group">
-            <label htmlFor="doctor">Doctor</label>
-            <input
-              type="text"
-              id="doctor"
-              name="doctor"
-              value={doctor}
+            <label htmlFor="speciality">Speciality</label>
+            <select
+              id="speciality"
+              name="speciality"
+              value={speciality}
               onChange={onChange}
-            />
+            >
+              {specialities.map((option) => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
           </div>
           <button type="submit">Search</button>
         </form>
       </div>
-      <section className="content">
+      <section className="appointmentContainer">
         {appointments.length > 0 ? (
-          <div className="appointments">
+          <>
             {appointments.map((appointment) => (
               <AppointmentItem
                 key={appointment._id}
                 appointment={appointment}
               />
             ))}
-          </div>
+          </>
         ) : (
           <h3>No appointments foud</h3>
         )}

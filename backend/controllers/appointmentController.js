@@ -10,7 +10,7 @@ exports.getAppointments = asyncHandler(async (req, res) => {
   const date = req.query.day.split("-");
   const hourStart = req.query.hourStart.split(":");
   const hourEnd = req.query.hourEnd.split(":");
-  const doctor = req.query.doctor;
+  const speciality = req.query.speciality;
 
   const timeStart = new Date(
     Date.UTC(
@@ -22,8 +22,6 @@ exports.getAppointments = asyncHandler(async (req, res) => {
     )
   );
 
-  console.log(date, hourStart);
-  console.log(timeStart);
   const timeEnd = new Date(
     Date.UTC(
       Number(date[0]),
@@ -33,15 +31,40 @@ exports.getAppointments = asyncHandler(async (req, res) => {
       Number(hourEnd[1])
     )
   );
-  console.log(date, hourEnd);
-  console.log(timeEnd);
-  const appointments = await Appointment.find({
-    time: {
-      $gte: timeStart,
-      $lte: timeEnd,
+
+  const appointments = await Appointment.aggregate([
+    {
+      $match: {
+        time: {
+          $gte: timeStart,
+          $lte: timeEnd,
+        },
+        patient: null,
+      },
     },
-    patient: null,
-  });
+    {
+      $lookup: {
+        from: "staffs",
+        localField: "staff",
+        foreignField: "_id",
+        as: "doctor",
+      },
+    },
+    {
+      $project: {
+        _id: 1,
+        time: 1,
+        staff: 1,
+        doctorName: { $arrayElemAt: ["$doctor.name", 0] },
+        doctorSpeciality: { $arrayElemAt: ["$doctor.speciality", 0] },
+      },
+    },
+    {
+      $match: {
+        doctorSpeciality: speciality,
+      },
+    },
+  ]);
 
   res.send(appointments);
 });

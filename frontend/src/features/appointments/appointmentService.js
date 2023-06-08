@@ -18,8 +18,21 @@ const getAppointments = async (filterData, token) => {
   return response.data;
 };
 
+const getSpecialities = async (token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const response = await axios.get("/staff/specialities", config);
+
+  return response.data;
+};
+
 const appointmentService = {
   getAppointments,
+  getSpecialities,
 };
 
 export default appointmentService;
