@@ -3,12 +3,19 @@ import React from "react";
 function AppointmentItem({ appointment }) {
   return (
     <div className="appointment">
-      <div>
-        {new Date(appointment.time).toLocaleDateString() +
-          " " +
-          new Date(appointment.time).toLocaleTimeString()}
+      <div className="time">
+        <span>Appointment Time</span>
+        <br></br>
+        <span>
+          {new Date(appointment.time).toLocaleDateString() +
+            " " +
+            new Date(appointment.time).toLocaleTimeString()}
+        </span>
       </div>
-      <h2>{appointment.staff}</h2>
+      <p className="staff">
+        {appointment.doctorName} <br></br> {appointment.doctorSpeciality}
+      </p>
+      <button className="reserve-btn">Reserve</button>
     </div>
   );
 }

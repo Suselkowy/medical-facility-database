@@ -1,0 +1,94 @@
+.appointmentContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffff; /* White background */
+}
+
+.appointment {
+  width: 400px;
+  padding: 20px;
+  margin-bottom: 20px;
+  background-color: #ffffff; /* White background */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.time {
+  margin-bottom: 10px;
+  font-weight: bold;
+  color: #333333; /* #333 header color */
+  text-align: center;
+}
+
+.staff {
+  text-align: center;
+}
+
+.reserve-btn {
+  display: inline-block;
+  padding: 8px 16px;
+  background-color: #0056b3; /* #0056b3 button color */
+  color: #ffffff; /* Text color for buttons */
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.reserve-btn:hover {
+  background-color: #003f8e; /* Button color on hover */
+}
+
+.login-container {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+h2 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.form-group {
+  width: 100%;
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
