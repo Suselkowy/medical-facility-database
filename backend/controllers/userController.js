@@ -52,7 +52,7 @@ exports.registerUser = asyncHandler(async (req, res) => {
   const user = await User.create({
     email: email,
     password: hashedPassword,
-    type: type,
+    role: type,
     _staff: null,
     _patient: patient,
   });
@@ -62,7 +62,7 @@ exports.registerUser = asyncHandler(async (req, res) => {
       _id: user.id,
       name: name,
       email: user.email,
-      type: type,
+      role: type,
       token: generateToken(user._id),
     });
   } else {
@@ -79,12 +79,13 @@ exports.loginUser = asyncHandler(async (req, res) => {
   const user = await User.findOne({ email });
 
   if (user && (await bcrypt.compare(password, user.password))) {
+    console.log(user);
     const patient = await Patient.findOne({ _id: user._patient });
     res.status(201).json({
       _id: user.id,
       name: patient.name,
       email: user.email,
-      type: user.type,
+      role: user.role,
       token: generateToken(user._id),
     });
   } else {

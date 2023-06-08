@@ -22,6 +22,29 @@ function Header() {
       </div>
       <div className="buttons">
         <ul>
+          {user && user.role == "patient" ? (
+            <li>
+              <button className="btn">
+                <Link className="btn" to="/patient-dashboard">
+                  <FaUser /> Patient Dashboard
+                </Link>
+              </button>
+            </li>
+          ) : (
+            <>
+              {user && user.role == "staff" ? (
+                <li>
+                  <button className="btn">
+                    <Link className="btn" to="/staff-dashboard">
+                      <FaUser /> Staff Dashboard
+                    </Link>
+                  </button>
+                </li>
+              ) : (
+                <></>
+              )}
+            </>
+          )}
           {user ? (
             <li>
               <button className="btn" onClick={onLogout}>
