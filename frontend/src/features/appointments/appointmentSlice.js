@@ -43,6 +43,21 @@ export const appointmentSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
+      })
+      .addCase(reserveAppointment.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(reserveAppointment.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.appointments = state.appointments.filter(
+          (appointment) => appointment._id != action.payload.id
+        );
+      })
+      .addCase(reserveAppointment.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
       });
   },
 });
@@ -53,6 +68,27 @@ export const getAppointments = createAsyncThunk(
     try {
       const token = thunkAPI.getState().auth.user.token;
       return await appointmentService.getAppointments(filterData, token);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+export const reserveAppointment = createAsyncThunk(
+  "appointments/reserve",
+  async (appointmentData, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth.user.token;
+      return await appointmentService.reserveAppointment(
+        appointmentData,
+        token
+      );
     } catch (error) {
       const message =
         (error.response &&

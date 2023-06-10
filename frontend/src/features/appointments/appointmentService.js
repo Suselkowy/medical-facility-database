@@ -30,9 +30,27 @@ const getSpecialities = async (token) => {
   return response.data;
 };
 
+const reserveAppointment = async (appointmentData, token) => {
+  console.log("reserve");
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const response = await axios.put(
+    API_URL + `/${appointmentData._id}`,
+    appointmentData,
+    config
+  );
+
+  return response.data;
+};
+
 const appointmentService = {
   getAppointments,
   getSpecialities,
+  reserveAppointment,
 };
 
 export default appointmentService;
