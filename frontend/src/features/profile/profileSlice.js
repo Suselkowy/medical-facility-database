@@ -1,9 +1,12 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, current } from "@reduxjs/toolkit";
 import profileService from "./profileService";
 import { toast } from "react-toastify";
 
 const initialState = {
   user_data: null,
+  pastAppointments: [],
+  todayAppointments: [],
+  futureAppointments: [],
   isError: false,
   isSuccess: false,
   isLoading: false,
@@ -25,6 +28,26 @@ export const profileSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = true;
         state.user_data = action.payload;
+        if (
+          state.futureAppointments.length === 0 &&
+          state.pastAppointments.length === 0 &&
+          state.todayAppointments.length === 0
+        )
+          state.user_data.appointments.forEach((appointment) => {
+            const appointmentTime = new Date(appointment.time);
+            const now = new Date();
+            if (
+              appointmentTime.getDate() === now.getDate() &&
+              appointmentTime.getMonth() === now.getMonth() &&
+              appointmentTime.getFullYear() === now.getFullYear()
+            ) {
+              state.todayAppointments.push(appointment);
+            } else if (appointmentTime < now) {
+              state.pastAppointments.push(appointment);
+            } else {
+              state.futureAppointments.push(appointment);
+            }
+          });
       })
       .addCase(getMe.rejected, (state, action) => {
         state.isLoading = false;
@@ -65,5 +88,5 @@ export const getMe = createAsyncThunk("profile/me", async (_, thunkAPI) => {
 //   }
 // );
 
-export const { reset } = profileSlice.actions;
+export const { reset, splitAppointments } = profileSlice.actions;
 export default profileSlice.reducer;

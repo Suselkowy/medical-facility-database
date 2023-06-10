@@ -4,6 +4,7 @@ const Staff = require("../models/staff");
 const asyncHandler = require("express-async-handler");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
+const mongoose = require("mongoose");
 
 exports.registerUser = asyncHandler(async (req, res) => {
   const { email, password, type, name, age, address } = req.body;
@@ -105,7 +106,51 @@ exports.getMe = asyncHandler(async (req, res) => {
   let info;
   if (req.user.role === "patient") {
     console.log("patient");
-    info = await Patient.findById(req.user._patient);
+    info = await Patient.aggregate([
+      { $match: { _id: mongoose.Types.ObjectId(req.user._patient) } },
+      {
+        $lookup: {
+          from: "appointments",
+          localField: "appointments",
+          foreignField: "_id",
+          as: "appointments",
+        },
+      },
+      {
+        $lookup: {
+          from: "staffs",
+          localField: "appointments.staff",
+          foreignField: "_id",
+          as: "staff",
+        },
+      },
+      {
+        $set: {
+          appointments: {
+            $map: {
+              input: "$appointments",
+              in: {
+                $mergeObjects: [
+                  "$$this",
+                  {
+                    fullData: {
+                      $arrayElemAt: [
+                        "$staff",
+                        { $indexOfArray: ["$staff.id", "$$this.id"] },
+                      ],
+                    },
+                  },
+                ],
+              },
+            },
+          },
+        },
+      },
+      { $unset: "staff" },
+      { $limit: 1 },
+    ]);
+
+    info = info[0];
   } else {
     info = await Staff.findById(req.user._staff);
   }
