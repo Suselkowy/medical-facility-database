@@ -1,4 +1,5 @@
 const Appointment = require("../models/appointment");
+const Patient = require("../models/patient");
 const asyncHandler = require("express-async-handler");
 const mongoose = require("mongoose");
 
@@ -71,19 +72,34 @@ exports.getAppointments = asyncHandler(async (req, res) => {
 // PUT /appointments/:id
 exports.reserveAppointment = asyncHandler(async (req, res) => {
   console.log("update");
+  console.log(req.user);
   const appointment = await Appointment.updateOne(
     { _id: mongoose.Types.ObjectId(req.params.id), patient: null },
     {
       $set: {
-        patient: mongoose.Types.ObjectId(req.body.patient),
+        patient: mongoose.Types.ObjectId(req.user._patient),
       },
     }
   );
+
   if (appointment.nModified == 0 || appointment === undefined) {
     throw new Error("Invalid data");
   }
 
+  await Patient.updateOne(
+    { _id: mongoose.Types.ObjectId(req.user._patient) },
+    { $push: { appointments: mongoose.Types.ObjectId(req.params.id) } }
+  );
+
   res
     .status(200)
     .json({ message: `Update goal Succesfull`, id: req.params.id });
+});
+
+exports.getAppointmentUser = asyncHandler(async (req, res) => {
+  const appointment = await Appointment.find({
+    patient: mongoose.Types.ObjectId(req.user.id),
+  });
+
+  res.status(200).json(appointment);
 });

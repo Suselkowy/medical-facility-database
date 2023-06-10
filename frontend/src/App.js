@@ -8,6 +8,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import PatientDashboard from "./pages/PatientDashboard";
 import StaffDashboard from "./pages/StaffDashboard";
+import PatientProfile from "./pages/PatientProfile";
 import Home from "./pages/Home";
 import Header from "./components/Header";
 
@@ -23,6 +24,7 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/patient-dashboard" element={<PatientDashboard />} />
             <Route path="/staff-dashboard" element={<StaffDashboard />} />
+            <Route path="/patient-profile" element={<PatientProfile />} />
           </Routes>
         </div>
       </BrowserRouter>

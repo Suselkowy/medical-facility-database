@@ -23,13 +23,22 @@ function Header() {
       <div className="buttons">
         <ul>
           {user && user.role == "patient" ? (
-            <li>
-              <button className="btn">
-                <Link className="btn" to="/patient-dashboard">
-                  <FaUser /> Patient Dashboard
-                </Link>
-              </button>
-            </li>
+            <>
+              <li>
+                <button className="btn">
+                  <Link className="btn" to="/patient-dashboard">
+                    <FaUser /> Patient Dashboard
+                  </Link>
+                </button>
+              </li>
+              <li>
+                <button className="btn">
+                  <Link className="btn" to="/patient-profile">
+                    <FaUser /> Profile
+                  </Link>
+                </button>
+              </li>
+            </>
           ) : (
             <>
               {user && user.role == "staff" ? (
