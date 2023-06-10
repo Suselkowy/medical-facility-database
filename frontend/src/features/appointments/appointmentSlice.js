@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import appointmentService from "./appointmentService";
+import { toast } from "react-toastify";
 
 const initialState = {
   appointments: [],
@@ -53,6 +54,7 @@ export const appointmentSlice = createSlice({
         state.appointments = state.appointments.filter(
           (appointment) => appointment._id != action.payload.id
         );
+        toast.success(action.payload.message);
       })
       .addCase(reserveAppointment.rejected, (state, action) => {
         state.isLoading = false;
