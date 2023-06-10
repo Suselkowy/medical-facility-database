@@ -5,7 +5,6 @@ const API_USER_URL = "/users/me";
 const API_APPOINTMENT_URL = "/appointments/user";
 
 const getMe = async (token) => {
-  console.log("get");
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -13,7 +12,7 @@ const getMe = async (token) => {
   };
 
   const response = await axios.get(API_USER_URL, config);
-  console.log("returned");
+
   return response.data;
 };
 
