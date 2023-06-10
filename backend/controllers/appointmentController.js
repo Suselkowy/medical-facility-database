@@ -1,5 +1,6 @@
 const Appointment = require("../models/appointment");
 const asyncHandler = require("express-async-handler");
+const mongoose = require("mongoose");
 
 exports.getAllAppointments = asyncHandler(async (req, res) => {
   const appointments = await Appointment.find();
@@ -13,24 +14,22 @@ exports.getAppointments = asyncHandler(async (req, res) => {
   const speciality = req.query.speciality;
 
   const timeStart = new Date(
-    Date.UTC(
-      Number(date[0]),
-      Number(date[1]) - 1,
-      Number(date[2]),
-      Number(hourStart[0]),
-      Number(hourStart[1])
-    )
+    Number(date[0]),
+    Number(date[1]) - 1,
+    Number(date[2]),
+    Number(hourStart[0]),
+    Number(hourStart[1])
   );
 
   const timeEnd = new Date(
-    Date.UTC(
-      Number(date[0]),
-      Number(date[1]) - 1,
-      Number(date[2]),
-      Number(hourEnd[0]),
-      Number(hourEnd[1])
-    )
+    Number(date[0]),
+    Number(date[1]) - 1,
+    Number(date[2]),
+    Number(hourEnd[0]),
+    Number(hourEnd[1])
   );
+
+  console.log(timeStart, timeEnd);
 
   const appointments = await Appointment.aggregate([
     {
@@ -73,16 +72,15 @@ exports.getAppointments = asyncHandler(async (req, res) => {
 exports.reserveAppointment = asyncHandler(async (req, res) => {
   console.log("update");
   const appointment = await Appointment.updateOne(
-    { _id: req.params.id, patient: null },
+    { _id: mongoose.Types.ObjectId(req.params.id), patient: null },
     {
       $set: {
-        patient: req.body.patient,
+        patient: mongoose.Types.ObjectId(req.body.patient),
       },
     }
   );
-
-  if (appointment.matchedCount < 1 || appointment.modifiedCount < 1) {
-    throw new Error("No documents modified");
+  if (appointment.nModified == 0 || appointment === undefined) {
+    throw new Error("Invalid data");
   }
 
   res
