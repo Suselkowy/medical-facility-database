@@ -68,3 +68,24 @@ exports.getAppointments = asyncHandler(async (req, res) => {
 
   res.send(appointments);
 });
+
+// PUT /appointments/:id
+exports.reserveAppointment = asyncHandler(async (req, res) => {
+  console.log("update");
+  const appointment = await Appointment.updateOne(
+    { _id: req.params.id, patient: null },
+    {
+      $set: {
+        patient: req.body.patient,
+      },
+    }
+  );
+
+  if (appointment.matchedCount < 1 || appointment.modifiedCount < 1) {
+    throw new Error("No documents modified");
+  }
+
+  res
+    .status(200)
+    .json({ message: `Update goal Succesfull`, id: req.params.id });
+});

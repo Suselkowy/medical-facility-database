@@ -12,10 +12,17 @@ router.get(
   appointmentController.getAppointments
 );
 
-router.post("/", async (req, res) => {
-  const appointment = new Appointment(req.body);
-  await appointment.save();
-  res.send(appointment);
-});
+router.put(
+  "/:id",
+  protect,
+  //roleProtect("staff"),
+  appointmentController.reserveAppointment
+);
+
+// router.post("/", async (req, res) => {
+//   const appointment = new Appointment(req.body);
+//   await appointment.save();
+//   res.send(appointment);
+// });
 
 module.exports = router;
