@@ -12,6 +12,13 @@ router.get(
   appointmentController.getAppointments
 );
 
+router.get(
+  "/user",
+  protect,
+  //roleProtect("staff"),
+  appointmentController.getAppointmentUser
+);
+
 router.put(
   "/:id",
   protect,

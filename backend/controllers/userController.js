@@ -102,15 +102,13 @@ const generateToken = (id) => {
 };
 
 exports.getMe = asyncHandler(async (req, res) => {
-  const user = await User.findById(req.user.id);
   let info;
-  if (user._patient) {
-    info = await Patient.findById(user._patient);
+  if (req.user.role === "patient") {
+    console.log("patient");
+    info = await Patient.findById(req.user._patient);
   } else {
-    info = await Staff.findById(user._staff);
+    info = await Staff.findById(req.user._staff);
   }
-  res.json({
-    id: req.user.id,
-    info: info,
-  });
+
+  res.status(200).json(info);
 });

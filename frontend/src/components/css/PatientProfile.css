@@ -1,0 +1,37 @@
+.patient-info {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+  color: #333;
+}
+
+.info-container {
+  margin-top: 20px;
+}
+
+.info-row {
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.info-label {
+  flex: 0 0 150px;
+  font-weight: bold;
+}
+
+.info-value {
+  flex: 1;
+}
+
+.info-button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  cursor: pointer;
+}
