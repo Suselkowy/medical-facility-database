@@ -59,7 +59,9 @@ function PatientDashboard() {
       navigate("/login");
     }
 
-    dispatch(getSpecialities());
+    if (specialities.length <= 0) {
+      dispatch(getSpecialities());
+    }
 
     return () => {
       dispatch(reset());

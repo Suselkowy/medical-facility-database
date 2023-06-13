@@ -26,6 +26,13 @@ router.put(
   appointmentController.reserveAppointment
 );
 
+router.put(
+  "/cancel/:id",
+  protect,
+  //roleProtect("staff"),
+  appointmentController.cancelAppointment
+);
+
 // router.post("/", async (req, res) => {
 //   const appointment = new Appointment(req.body);
 //   await appointment.save();
