@@ -1,5 +1,6 @@
 const Appointment = require("../models/appointment");
 const Patient = require("../models/patient");
+const Staff = require("../models/staff");
 const asyncHandler = require("express-async-handler");
 const mongoose = require("mongoose");
 
@@ -72,8 +73,16 @@ exports.getAppointments = asyncHandler(async (req, res) => {
 // PUT /appointments/:id
 exports.reserveAppointment = asyncHandler(async (req, res) => {
   console.log("update");
-  console.log(req.user);
-  const appointment = await Appointment.updateOne(
+  // const appointment = await Appointment.updateOne(
+  //   { _id: mongoose.Types.ObjectId(req.params.id), patient: null },
+  //   {
+  //     $set: {
+  //       patient: mongoose.Types.ObjectId(req.user._patient),
+  //     },
+  //   }
+  // );
+
+  const appointment = await Appointment.findOneAndUpdate(
     { _id: mongoose.Types.ObjectId(req.params.id), patient: null },
     {
       $set: {
@@ -82,18 +91,65 @@ exports.reserveAppointment = asyncHandler(async (req, res) => {
     }
   );
 
-  if (appointment.nModified == 0 || appointment === undefined) {
+  if (!appointment) {
     throw new Error("Invalid data");
   }
+
+  // if (appointment.nModified == 0 || appointment === undefined) {
+  //   throw new Error("Invalid data");
+  // }
 
   await Patient.updateOne(
     { _id: mongoose.Types.ObjectId(req.user._patient) },
     { $push: { appointments: mongoose.Types.ObjectId(req.params.id) } }
   );
 
+  await Staff.updateOne(
+    { _id: mongoose.Types.ObjectId(appointment.staff) },
+    { $push: { appointments: mongoose.Types.ObjectId(req.params.id) } }
+  );
+
   res
     .status(200)
-    .json({ message: `Update goal Succesfull`, id: req.params.id });
+    .json({ message: `Update appointment Succesfull`, id: req.params.id });
+});
+
+// PUT /appointments/cancel/:id
+exports.cancelAppointment = asyncHandler(async (req, res) => {
+  console.log("cancel start");
+  const appointment = await Appointment.findOneAndUpdate(
+    {
+      _id: mongoose.Types.ObjectId(req.params.id),
+      patient: mongoose.Types.ObjectId(req.user._patient),
+    },
+    {
+      $set: {
+        patient: null,
+      },
+    }
+  );
+
+  // if (appointment.nModified == 0 || appointment === undefined) {
+  //   throw new Error("Invalid data");
+  // }
+  if (!appointment) {
+    throw new Error("Invalid data");
+  }
+
+  await Patient.updateOne(
+    { _id: mongoose.Types.ObjectId(req.user._patient) },
+    { $pull: { appointments: mongoose.Types.ObjectId(req.params.id) } }
+  );
+
+  await Staff.updateOne(
+    { _id: mongoose.Types.ObjectId(appointment.staff) },
+    { $pull: { appointments: mongoose.Types.ObjectId(req.params.id) } }
+  );
+
+  console.log("cancel");
+  res
+    .status(200)
+    .json({ message: `Cancel appointment Succesfull`, id: req.params.id });
 });
 
 exports.getAppointmentUser = asyncHandler(async (req, res) => {

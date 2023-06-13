@@ -31,8 +31,9 @@ function PatientProfile() {
     if (!user) {
       navigate("/login");
     }
-
-    dispatch(getMe());
+    if (!user_data) {
+      dispatch(getMe());
+    }
 
     return () => {
       dispatch(reset());

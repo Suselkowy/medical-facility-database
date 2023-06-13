@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk, current } from "@reduxjs/toolkit";
 import profileService from "./profileService";
+import appointmentService from "../appointments/appointmentService";
 import { toast } from "react-toastify";
 
 const initialState = {
@@ -53,6 +54,25 @@ export const profileSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
+      })
+      .addCase(cancelAppointment.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(cancelAppointment.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.user_data.appointments = state.user_data.appointments.filter(
+          (appointment) => appointment._id != action.payload.id
+        );
+        state.futureAppointments = state.futureAppointments.filter(
+          (appointment) => appointment._id != action.payload.id
+        );
+        toast.success(action.payload.message);
+      })
+      .addCase(cancelAppointment.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
       });
   },
 });
@@ -69,6 +89,24 @@ export const getMe = createAsyncThunk("profile/me", async (_, thunkAPI) => {
     return thunkAPI.rejectWithValue(message);
   }
 });
+
+export const cancelAppointment = createAsyncThunk(
+  "profile/cancelAppointment",
+  async (appointmentData, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth.user.token;
+      return await appointmentService.cancelAppointment(appointmentData, token);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
 
 // export const getAppointments = createAsyncThunk(
 //   "profile/appointments",

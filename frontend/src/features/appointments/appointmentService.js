@@ -47,10 +47,28 @@ const reserveAppointment = async (appointmentData, token) => {
   return response.data;
 };
 
+const cancelAppointment = async (appointmentData, token) => {
+  console.log("cancel");
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const response = await axios.put(
+    API_URL + `/cancel/${appointmentData._id}`,
+    appointmentData,
+    config
+  );
+
+  return response.data;
+};
+
 const appointmentService = {
   getAppointments,
   getSpecialities,
   reserveAppointment,
+  cancelAppointment,
 };
 
 export default appointmentService;

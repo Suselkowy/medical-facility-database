@@ -1,11 +1,12 @@
 import React from "react";
-import { reserveAppointment } from "../features/appointments/appointmentSlice";
+import { cancelAppointment } from "../features/profile/profileSlice";
 import { useSelector, useDispatch } from "react-redux";
 
 function ProfileAppointmentItem({ appointment, isCancelable }) {
   const dispatch = useDispatch();
   const handleClick = () => {
-    dispatch(reserveAppointment(appointment));
+    console.log("handle");
+    dispatch(cancelAppointment(appointment));
   };
 
   return (
@@ -23,7 +24,12 @@ function ProfileAppointmentItem({ appointment, isCancelable }) {
         {appointment.fullData.name} <br></br> {appointment.fullData.speciality}
       </p>
       {isCancelable === true ? (
-        <button onClick={() => {}} className="delete-button">
+        <button
+          onClick={() => {
+            handleClick();
+          }}
+          className="delete-button"
+        >
           Cancel
         </button>
       ) : (
