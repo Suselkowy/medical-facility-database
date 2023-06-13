@@ -20,7 +20,7 @@ function ProfileAppointmentItem({ appointment, isCancelable }) {
             new Date(appointment.time).toLocaleTimeString()}
         </span>
       </div>
-      <p className="staff">
+      <p className="info">
         {appointment.fullData.name} <br></br> {appointment.fullData.speciality}
       </p>
       {isCancelable === true ? (

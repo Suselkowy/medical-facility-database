@@ -13,6 +13,7 @@ const userRoutes = require("./routes/userRoutes");
 const dotenv = require("dotenv").config();
 
 const { errorHandler } = require("./middleware/errorMiddleware");
+
 //"mongodb://adminuser:123456@localhost/medical_database"
 
 mongoose.connect(
@@ -22,6 +23,7 @@ mongoose.connect(
     useUnifiedTopology: true,
   }
 );
+
 
 const app = express();
 app.use(express.json());

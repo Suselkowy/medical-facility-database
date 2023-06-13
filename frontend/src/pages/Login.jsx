@@ -28,10 +28,13 @@ function Login() {
 
     if (isSuccess || user) {
       console.log("success");
-      if (user.type === "staff") {
+      console.log(user.role, user.role === "staff"); // TODO user.type is undefined ???
+      if (user.role === "staff") {
         navigate("/staff-dashboard");
+        // console.log("going to staff"); // TODO DEBUG delete me
       } else {
         navigate("/patient-dashboard");
+        // console.log("going to patient"); // TODO DEBUG delete me
       }
     }
 

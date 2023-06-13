@@ -19,4 +19,7 @@ router.post("/", async (req, res) => {
   res.send(staffMember);
 });
 
+router.get("/:id/appointments", protect, staffController.getAppointments);
+router.put("/:id/appointments/:a_id/cancel", protect, staffController.cancelAppointment);
+
 module.exports = router;

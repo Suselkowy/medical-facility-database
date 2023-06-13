@@ -134,7 +134,7 @@ function PatientDashboard() {
             ))}
           </>
         ) : (
-          <h3>No appointments foud</h3>
+          <h3>No appointments found</h3>
         )}
       </section>
     </>

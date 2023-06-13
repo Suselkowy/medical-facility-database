@@ -1,3 +1,4 @@
+
 const mongoose = require("mongoose");
 const Patient = require("./models/patient");
 const Staff = require("./models/staff");
@@ -10,6 +11,7 @@ const AmbulanceCall = require("./models/ambulanceCall");
 mongoose.connect(
   "mongodb+srv://admin:jib3XYHEFXUSQZtr@cluster0.r4rcesh.mongodb.net/medical_database?retryWrites=true&w=majority",
   {
+
     useNewUrlParser: true,
     useUnifiedTopology: true,
   }
