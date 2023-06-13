@@ -7,7 +7,7 @@ const Appointment = require('./models/appointment');
 const Bill = require('./models/bill');
 const AmbulanceCall = require('./models/ambulanceCall');
 
-mongoose.connect('mongodb://localhost/medical_database', {
+mongoose.connect('mongodb://127.0.0.1:27017/medical_database', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
