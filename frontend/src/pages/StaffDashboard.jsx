@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import {
   getAppointments
 } from "../features/staff/staffSlice";
-import AppointmentItem from "../components/AppointmentItem";
+import StaffAppointmentItem from "../components/StaffAppointmentItem";
 
 
 const StaffDashboard = () => {
@@ -38,9 +38,10 @@ const StaffDashboard = () => {
         {todaysAppointments.length > 0 ? (
           <>
             {todaysAppointments.map((appointment) => (
-              <AppointmentItem
+              <StaffAppointmentItem
                 key={appointment._id}
                 appointment={appointment}
+                startable={true}
               />
             ))}
           </>
@@ -53,7 +54,7 @@ const StaffDashboard = () => {
         {futureAppointments.length > 0 ? (
           <>
             {futureAppointments.map((appointment) => (
-              <AppointmentItem
+              <StaffAppointmentItem
                 key={appointment._id}
                 appointment={appointment}
               />

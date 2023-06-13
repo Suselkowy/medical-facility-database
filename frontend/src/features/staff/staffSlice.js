@@ -26,16 +26,19 @@ const staffSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = true;
         state.todaysAppointments = [];
+        state.futureAppointments = [];
         action.payload.forEach((appointment) => {
           const appointmentTime = new Date(appointment.time);
           const now = new Date();
           if (appointmentTime.getDate() === now.getDate() &&
               appointmentTime.getMonth() === now.getMonth() &&
               appointmentTime.getFullYear() === now.getFullYear()) state.todaysAppointments.push(appointment)
+          else if (appointmentTime < now) {}
+          else state.futureAppointments.push(appointment)
         });
         // console.log(state.todaysAppointments);
         // console.log(action.payload);
-        state.futureAppointments = action.payload.filter(x => !state.todaysAppointments.includes(x));
+        // state.futureAppointments = action.payload.filter(x => !state.todaysAppointments.includes(x));
         state.isLoading = false;
         // console.log(state.todaysAppointments);
         // console.log(state.futureAppointments);

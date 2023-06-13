@@ -55,11 +55,13 @@ const cancelAppointment = async (appointmentData, token) => {
     },
   };
 
+  console.log(appointmentData);
   const response = await axios.put(
     API_URL + `/cancel/${appointmentData._id}`,
     appointmentData,
     config
   );
+  console.log(response.data);
 
   return response.data;
 };
