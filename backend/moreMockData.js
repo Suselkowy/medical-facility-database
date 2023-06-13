@@ -7,10 +7,13 @@ const Appointment = require("./models/appointment");
 const Bill = require("./models/bill");
 const AmbulanceCall = require("./models/ambulanceCall");
 
-mongoose.connect("mongodb://localhost/medical_database", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+mongoose.connect(
+  "mongodb+srv://admin:jib3XYHEFXUSQZtr@cluster0.r4rcesh.mongodb.net/medical_database?retryWrites=true&w=majority",
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  }
+);
 
 const startTime = new Date().setHours(8, 0, 0, 0); // Today at 8:00
 const endTime = new Date().setHours(16, 0, 0, 0); // Today at 16:00
@@ -38,7 +41,7 @@ const createAppointment = async (time, staffId) => {
 // Generate appointments
 while (currentTime <= endTime) {
   const appointmentTime = new Date(currentTime);
-  const staffId = mongoose.Types.ObjectId("6467698cefeb162c141fe5dc");
+  const staffId = mongoose.Types.ObjectId("6488fbfa1717317d48088406");
 
   createAppointment(appointmentTime, staffId);
 
