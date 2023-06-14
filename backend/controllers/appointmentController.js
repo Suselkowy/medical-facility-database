@@ -41,6 +41,7 @@ exports.getAppointments = asyncHandler(async (req, res) => {
           $lte: timeEnd,
         },
         patient: null,
+        status: { $ne: "canceled" },
       },
     },
     {
@@ -159,7 +160,6 @@ exports.getAppointmentUser = asyncHandler(async (req, res) => {
 
   res.status(200).json(appointment);
 });
-
 
 // create new appointment without a specified patient
 // (patients will be able to find it in patient dashboard)
