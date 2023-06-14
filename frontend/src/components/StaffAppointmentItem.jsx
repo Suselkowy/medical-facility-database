@@ -9,6 +9,10 @@ function StaffAppointmentItem({ appointment, startable }) {
     const modAppointment = { ...appointment, newState: "fulfilled" };
     dispatch(updateAppointmentStaff(modAppointment));
   };
+  const pendingClick = () => {
+    const modAppointment = { ...appointment, newState: "pending" };
+    dispatch(updateAppointmentStaff(modAppointment));
+  };
   const cancelClick = () => {
     const modAppointment = { ...appointment, newState: "canceled" };
     dispatch(updateAppointmentStaff(modAppointment));
@@ -57,7 +61,9 @@ function StaffAppointmentItem({ appointment, startable }) {
           Cancel
         </button>
       ) : (
-        <button className="reserve-btn hidden">Cancel</button>
+        <button className="reserve-btn " onClick={pendingClick}>
+          Pending
+        </button>
       )}
     </div>
   );
