@@ -1,4 +1,3 @@
-
 const mongoose = require("mongoose");
 const Patient = require("./models/patient");
 const Staff = require("./models/staff");
@@ -11,7 +10,6 @@ const AmbulanceCall = require("./models/ambulanceCall");
 mongoose.connect(
   "mongodb+srv://admin:jib3XYHEFXUSQZtr@cluster0.r4rcesh.mongodb.net/medical_database?retryWrites=true&w=majority",
   {
-
     useNewUrlParser: true,
     useUnifiedTopology: true,
   }
@@ -45,6 +43,7 @@ async function createMockData() {
   // Mock data dla personelu
   const staffMembers = [
     new Staff({
+      _id: mongoose.Types.ObjectId("6488fbfa1717317d48088406"),
       name: "Dr. Maria Nowicka",
       position: "Lekarz",
       speciality: "Dermatologia",
@@ -79,25 +78,6 @@ async function createMockData() {
       ambulanceNumber: 5,
       isAvailable: false,
       location: "Wrocław",
-    }),
-  ];
-
-  // Mock data dla umówionych spotkań
-  const appointments = [
-    new Appointment({
-      time: new Date(2023, 6, 11, 14, 30),
-      patient: null,
-      staff: staffMembers[0]._id,
-    }),
-    new Appointment({
-      time: new Date(2023, 6, 12, 9, 0),
-      patient: null,
-      staff: staffMembers[1]._id,
-    }),
-    new Appointment({
-      time: new Date(2023, 6, 13, 16, 0),
-      patient: null,
-      staff: staffMembers[2]._id,
     }),
   ];
 

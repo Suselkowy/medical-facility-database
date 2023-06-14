@@ -28,6 +28,7 @@ const createAppointment = async (time, staffId) => {
     time: time,
     patient: null,
     staff: staffId,
+    status: "pending",
   });
 
   try {

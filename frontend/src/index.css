@@ -67,3 +67,19 @@ header {
   align-items: center;
   justify-content: center;
 }
+
+.red {
+  color: red;
+}
+
+.orange {
+  color: orange;
+}
+
+.green {
+  color: green;
+}
+
+.hidden {
+  visibility: hidden;
+}

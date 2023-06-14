@@ -1,11 +1,9 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import {
-  getAppointments
-} from "../features/staff/staffSlice";
+import { getAppointments, reset } from "../features/staff/staffSlice";
+import Spinner from "../components/spinner";
 import StaffAppointmentItem from "../components/StaffAppointmentItem";
-
 
 const StaffDashboard = () => {
   const dispatch = useDispatch();
@@ -16,15 +14,16 @@ const StaffDashboard = () => {
   const futureAppointments = useSelector(
     (state) => state.staff.futureAppointments
   );
-  const loading = useSelector((state) => state.staff.loading);
+  const loading = useSelector((state) => state.staff.isLoading);
   const error = useSelector((state) => state.staff.error);
 
   useEffect(() => {
-    dispatch(getAppointments());
-  }, [dispatch]);
+    if (todaysAppointments.length <= 0 && futureAppointments.length <= 0)
+      dispatch(getAppointments());
+  }, [dispatch, todaysAppointments, futureAppointments]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <Spinner />;
   }
 
   if (error) {

@@ -23,6 +23,7 @@ function ProfileAppointmentItem({ appointment, isCancelable }) {
       <p className="info">
         {appointment.fullData.name} <br></br> {appointment.fullData.speciality}
       </p>
+      <p className="info">{appointment.status}</p>
       {isCancelable === true ? (
         <button
           onClick={() => {

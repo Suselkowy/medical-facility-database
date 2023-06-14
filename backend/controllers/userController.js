@@ -81,7 +81,10 @@ exports.loginUser = asyncHandler(async (req, res) => {
 
   if (user && (await bcrypt.compare(password, user.password))) {
     console.log(user);
-    const userDB = await Patient.findOne({ _id: user._patient }) || await Staff.findOne({ _id: user._staff});
+    const userDB =
+      (await Patient.findOne({ _id: user._patient })) ||
+      (await Staff.findOne({ _id: user._staff }));
+    console.log(userDB);
     res.status(201).json({
       _id: user.id,
       name: userDB.name,
