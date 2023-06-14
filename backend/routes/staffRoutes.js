@@ -3,7 +3,6 @@ const router = express.Router();
 const Staff = require("../models/staff");
 
 const { protect, roleProtect } = require("../middleware/authMiddleware");
-
 const staffController = require("../controllers/staffController");
 
 router.get("/", async (req, res) => {
@@ -20,6 +19,11 @@ router.post("/", async (req, res) => {
 });
 
 router.get("/:id/appointments", protect, staffController.getAppointments);
-router.put("/:id/appointments/:a_id/cancel", protect, staffController.cancelAppointment);
+
+router.put(
+  "/appointments/:status/:id",
+  protect,
+  staffController.updateAppointmentStaff
+);
 
 module.exports = router;
